@@ -3,6 +3,7 @@
 import { onMount } from "svelte";
 import ProjectCard from "./ProjectCard.svelte";
 import Carousel from "./Carousel.svelte";
+import Spinner from "./Spinner.svelte";
 
 import outin from "$lib/outin.js";
 import { fade } from 'svelte/transition'
@@ -35,28 +36,7 @@ onMount(() => {
         <Carousel items={projects} component={ProjectCard}/>
     </section>
 {:else}
-    <span in:fadeIn></span>
+    <div in:fadeIn>
+        <Spinner />
+    </div>
 {/if}
-
-<style lang="scss">
-
-span{
-    display: block;
-    width: 50px;
-    height: 50px;
-    margin-inline: auto;
-    background-color: darkgray;
-    border-radius: 50%;
-    border: 2px dashed black;
-    animation: spinner 2s ease-in-out infinite;
-}
-
-@keyframes spinner{
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        transform: rotate(360deg);
-    }
-}
-</style>

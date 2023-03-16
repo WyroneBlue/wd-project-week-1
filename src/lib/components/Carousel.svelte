@@ -55,17 +55,20 @@
 
 <svelte:window on:keydown={handleKeydown}/>
 
+<ul class="carousel">
+    {#each items as item, i }
+    <DisplayItem item={item} active={ currentItem === i } />
+    {/each}
+</ul>
 
-    <ul class="carousel">
-        {#each items as item, i }
-        <DisplayItem item={item} active={ currentItem === i } />
-        {/each}
-    </ul>
-
-    <menu>
-        <button on:click={prevImage}>Prev</button>
-        <button on:click={nextImage}>Next</button>
-    </menu>
+<menu>
+    <li>
+        <button on:click={prevImage}><span>&#8249;</span></button>
+    </li>
+    <li>
+        <button on:click={nextImage}><span>&#8250;</span></button>
+    </li>
+</menu>
 
 <style lang="scss">
     section {
@@ -83,8 +86,7 @@
         display: flex;
         gap: 5px;
         padding: 10px 40px;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
+        overflow-x: hidden;
         scroll-behavior: smooth;
         list-style-type: none;
         transform-style: preserve-3d;
@@ -92,6 +94,35 @@
 
         &::-webkit-scrollbar {
             display: none;
+        }
+    }
+
+    menu {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+
+
+        li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style-type: none;
+            width: 50px;
+            height: 50px;
+
+            button{
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.8);
+                cursor: pointer;
+
+                span{
+                    font-size: 2rem;
+                }
+
+            }
         }
     }
 </style>

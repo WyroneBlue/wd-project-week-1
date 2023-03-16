@@ -1,23 +1,33 @@
 <script>
-    import { fade } from 'svelte/transition'
+    import { onMount } from "svelte";
     import Projects from '$lib/components/Projects.svelte';
+    import { fade } from 'svelte/transition'
     import outin from "$lib/outin.js";
     const [fadeOut, fadeIn] = outin({ transition: fade });
 
-    let showProjectsCards = true;
+    let showProjectsCards = false;
+    let loaded = false;
+
+    onMount(() => {
+
+        if(sessionStorage.getItem('showProjectsCards')){
+            showProjectsCards = true;
+        }
+
+        loaded = true;
+    });
+
     function showProjects(){
         showProjectsCards = true;
+
+        sessionStorage.setItem('showProjectsCards', true);
     }
 
 </script>
 
-<svelte:head>
-    <title>Home</title>
-</svelte:head>
-
 <main class={ showProjectsCards ? 'show-projects' : '' }>
 
-    <section>
+    <section class={ loaded ? '' : 'hide'}>
 
         {#if showProjectsCards}
 
@@ -29,7 +39,11 @@
 
             <div in:fadeIn>
 
-                <h1>Welcome</h1>
+                <h1>Welcome!</h1>
+                <p>
+                    I'm a software developer with a passion for creating
+                    beautiful and functional web applications.
+                </p>
                 <button on:click={showProjects}>
                     Let's get started
                 </button>
@@ -63,16 +77,34 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            // background-color: red;
+            transition: opacity .3s ease-out;
+
+            &.hide{
+                opacity: 0;
+                pointer-events: none;
+            }
 
             div{
                 display: block;
                 width: 100%;
             }
 
+            h1{
+                color: white;
+                font-size: 2.5rem;
+            }
+
+            p{
+                font-size: 1.3rem;
+                max-width: 400px;
+            }
+
             button {
                 padding: 10px 20px;
                 width: 200px;
+                font-size: 1rem;
+                font-weight: 700;
+                border-radius: 20px;
             }
         }
     }
